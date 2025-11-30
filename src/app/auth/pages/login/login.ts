@@ -1,3 +1,4 @@
+import { LocalStorageService } from './../../../services/localstorage.service';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,6 +18,7 @@ export class AppLogin {
   email = signal<string>('');
   password = signal<string>('');
   authService = inject(AuthService);
+  localStorageService = inject(LocalStorageService);
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
@@ -26,7 +28,13 @@ export class AppLogin {
     this.authService.login(this.email(), this.password()).subscribe({
       next: (res: any) => {
         console.log(res);
+        this.localStorageService.setItem('USER', res);
       },
     });
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    console.log(this.localStorageService.getItem('USER'));
   }
 }
