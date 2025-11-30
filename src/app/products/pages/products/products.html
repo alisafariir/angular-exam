@@ -1,1 +1,9 @@
 <h1>products page</h1>
+<div class="grid grid-cols-12 gap-4">
+  @for (product of products(); track $index) {
+  <div class="col-span-3">
+    <p>{{ product.title }}</p>
+    <img [src]="product.thumbnail" />
+  </div>
+  }
+</div>
